@@ -1,0 +1,8 @@
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*.backup
+.env.ps1
+.env

@@ -15,7 +15,7 @@ resource "aws_subnet" "public_1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.project_name}-public-1"
+    Name                     = "${var.project_name}-public-1"
     "kubernetes.io/role/elb" = "1"
   }
 }
@@ -27,7 +27,7 @@ resource "aws_subnet" "public_2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.project_name}-public-2"
+    Name                     = "${var.project_name}-public-2"
     "kubernetes.io/role/elb" = "1"
   }
 }

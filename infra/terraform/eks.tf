@@ -1,7 +1,10 @@
+locals {
+  lab_role_arn = "arn:aws:iam::958787593221:role/LabRole"
+}
+
 resource "aws_eks_cluster" "main" {
   name     = var.cluster_name
-  role_arn = aws_iam_role.eks_cluster_role.arn
-  version  = "1.29"
+  role_arn = local.lab_role_arn
 
   vpc_config {
     subnet_ids = [
@@ -12,10 +15,6 @@ resource "aws_eks_cluster" "main" {
     endpoint_public_access = true
   }
 
-  depends_on = [
-    aws_iam_role_policy_attachment.eks_cluster_policy
-  ]
-
   tags = {
     Name = var.cluster_name
   }
@@ -24,7 +23,7 @@ resource "aws_eks_cluster" "main" {
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "${var.project_name}-node-group"
-  node_role_arn   = aws_iam_role.eks_node_role.arn
+  node_role_arn   = local.lab_role_arn
 
   subnet_ids = [
     aws_subnet.public_1.id,
@@ -40,9 +39,7 @@ resource "aws_eks_node_group" "main" {
   }
 
   depends_on = [
-    aws_iam_role_policy_attachment.worker_node_policy,
-    aws_iam_role_policy_attachment.cni_policy,
-    aws_iam_role_policy_attachment.ecr_readonly
+    aws_eks_cluster.main
   ]
 
   tags = {
