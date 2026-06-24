@@ -3,3 +3,4 @@ infra/terraform/.env.ps1
 *.tfstate
 *.tfstate.backup
 .terraform/
+k8s/secret-db.yaml
